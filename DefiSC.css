@@ -1,0 +1,16 @@
+/* CSS declarations go here */
+body {background-color : black; color:white;}
+h1 {position: relative; margin-left:35%;margin-top : 3em;}
+
+
+.wrapper {margin : auto; width : 100%; }
+
+#inputBox {position : relative; 
+ padding:3px;
+ border:1px solid #FFFFFF;
+ border-radius:5px;
+ width:25%;
+ height : 30px;
+ margin-left : 35%;
+ margin-top : 50px;
+ } 
