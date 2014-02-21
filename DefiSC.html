@@ -1,21 +1,24 @@
 <head>
-  <title>HashtagGrabber</title>
+	<title>HashtagGrabber</title>
 </head>
 
 <body>
-  {{> hello}}
+	{{> searchTwit}}
 </body>
 
-<template name="hello">
-	
+<template name="searchTwit">
+
 	<div class="wrapper">
 		<h1>Twitter HashtagGrabber</h1>
-		<input type="search" name="search" placeholder="Type a hashtag" id="inputBox"/>
+		<input type="search" name="searchinput" placeholder="Type a hashtag" id="searchinput" />
+
 	</div>
-		<!--{{greeting}}-->
-		
+	<!--{{greeting}}-->
+
+	<div class="hashtags">
+		{{#each hashtags}}
+		{{hashtag}}
 		<br>
-		
-		<input type="button" value="Click" />
-	
+		{{/each}}
+	</div>
 </template>

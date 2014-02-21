@@ -5,7 +5,7 @@ h1 {position: relative; margin-left:35%;margin-top : 3em;}
 
 .wrapper {margin : auto; width : 100%; }
 
-#inputBox {position : relative; 
+#searchinput{position : relative; 
  padding:3px;
  border:1px solid #FFFFFF;
  border-radius:5px;
@@ -14,3 +14,5 @@ h1 {position: relative; margin-left:35%;margin-top : 3em;}
  margin-left : 35%;
  margin-top : 50px;
  } 
+ 
+#hashtags{color : white;}
