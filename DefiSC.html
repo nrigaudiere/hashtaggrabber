@@ -10,15 +10,20 @@
 
 	<div class="wrapper">
 		<h1>Twitter HashtagGrabber</h1>
+		
+		
 		<input type="search" name="searchinput" placeholder="Type a hashtag" id="searchinput" />
 
 	</div>
 	<!--{{greeting}}-->
 
 	<div class="hashtags">
+		
 		{{#each hashtags}}
 		{{hashtag}}
 		<br>
 		{{/each}}
 	</div>
+	
+	<div>{{loginButtons}}</div>
 </template>

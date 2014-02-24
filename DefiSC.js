@@ -1,3 +1,8 @@
+//Clear entries
+var clearValues = function(){
+	$('#searchinput').val("").focus();
+};
+
 /// EventHandler ///
 var okCancelEvents = function (selector, callbacks) {
   var ok = callbacks.ok || function () {};
@@ -33,7 +38,7 @@ if (Meteor.isClient) {
 	//Get all hashtags from History Collection
 	Template.searchTwit.hashtags = function(){
 		return Hashtags.find();
-	}
+	};
 	
 	Template.searchTwit.events(okCancelEvents(
 		
@@ -41,10 +46,11 @@ if (Meteor.isClient) {
 		{
 			//Add new hashtag to history Collection
 			ok : function(text, evt){
-									 var searchInput = $('#searchinput').val();								 
-									 Hashtags.insert({hashtag:text});
-									 	
-									}
+				
+				var searchInput = $('#searchinput').val();								 
+				Hashtags.insert({hashtag:text});
+				clearValues();			 	
+				}
 		}));
 	
 	
@@ -53,29 +59,22 @@ if (Meteor.isClient) {
     return "Welcome to DefiSC.";
   };
 
-  Template.searchtwit.events({
-    'keyup input#myname': function (evt) {
-    var name = $('#lobby input#myname').val().trim();
-    Hashtags.update(Session.get('player_id'), {$set: {name: name}});
-    console.log();
-  },
-  'click button.startgame': function () {
-    Meteor.call('start_new_game');
-  }
-    
-  });
-	
+  
 
   
   var Twit = require('twit');
 
 	var T = new Twit({
-	    consumer_key:         '...'
-	  , consumer_secret:      '...'
+	    consumer_key:         '3wqbNNvwn0K3VSRSKzBeVQ'
+	  , consumer_secret:      'InWnI8wlxy8FdEbSG0IDSLOVFrvLDcRFKSJdKDPMqCw'
 	  , access_token:         '...'
 	  , access_token_secret:  '...'
 	});
   
+  
+  T.get('search/tweets', { q: 'banana since:2011-11-11', count: 100 }, function(err, reply) {
+  		console.log(reply);
+	});
   
 }
 
@@ -83,6 +82,14 @@ if (Meteor.isServer) {
   Meteor.startup(function () {
     // code to run on server at startup
     
+    Accounts.loginServiceConfiguration.remove({
+    service: "twitter"
+  });
+  Accounts.loginServiceConfiguration.insert({
+    service: "twitter",
+    consumerKey: "3wqbNNvwn0K3VSRSKzBeVQ",
+    secret: "InWnI8wlxy8FdEbSG0IDSLOVFrvLDcRFKSJdKDPMqCw"
+  });
 
 	});
 }
