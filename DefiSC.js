@@ -54,10 +54,6 @@ if (Meteor.isClient) {
 		}));
 	
 	
-		
-  Template.searchtwit.greeting = function () {
-    return "Welcome to DefiSC.";
-  };
 
   
 
