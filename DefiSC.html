@@ -40,20 +40,19 @@
 			<div class="span6 offset2">
 				<input type="search" name="searchinput" {{#if currentUser}}placeholder="Type a hashtag"{{/if}}  {{#unless currentUser}}placeholder="Please sign in to start"	disabled {{/unless}} id="searchinput" />
 			</div>
-		</div>
-
-		<!--{{greeting}}-->
 		{{#if currentUser}}
-		<div class="row-fluid hashtags">
-			<div class="span6 offset2 well">
-				<i>Past searches :</i>
+			<div class="span3 offset1 well">
+				<b><i>Past searches :</i></b>
 				{{#each hashtags}}
 				<br>
 				{{hashtag}}
 				{{/each}}
 			</div>
-		</div>
 		{{/if}}
+		</div>
+
+		
+		
 	</div>
 
 </template>
