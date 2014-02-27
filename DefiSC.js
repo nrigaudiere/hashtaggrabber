@@ -54,23 +54,6 @@ if (Meteor.isClient) {
 		}));
 	
 	
-
-  
-
-  
-  var Twit = require('twit');
-
-	var T = new Twit({
-	    consumer_key:         '3wqbNNvwn0K3VSRSKzBeVQ'
-	  , consumer_secret:      'InWnI8wlxy8FdEbSG0IDSLOVFrvLDcRFKSJdKDPMqCw'
-	  , access_token:         '...'
-	  , access_token_secret:  '...'
-	});
-  
-  
-  T.get('search/tweets', { q: 'banana since:2011-11-11', count: 100 }, function(err, reply) {
-  		console.log(reply);
-	});
   
 }
 
@@ -88,6 +71,32 @@ if (Meteor.isServer) {
   });
 
 	});
+	
+	
+/*
+	Meteor.methods({
+		'getTwits' : function getGists(user) {
+			var Twit = Meteor.require('ntwitter');
+			
+
+			var T = new Twit({
+				consumer_key : '3wqbNNvwn0K3VSRSKzBeVQ',
+				consumer_secret : 'InWnI8wlxy8FdEbSG0IDSLOVFrvLDcRFKSJdKDPMqCw',
+				access_token : '...',
+				access_token_secret : '...'
+			});
+			
+			  T.get('search/tweets', { q: 'banana since:2011-11-11', count: 100 }, function(err, reply) {
+			  		console.log(reply);
+			  		return reply;
+			});
+			
+		}
+	}); */
+
+
+	
+	
 }
 
 
