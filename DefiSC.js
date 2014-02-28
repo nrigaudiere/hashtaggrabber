@@ -32,9 +32,11 @@ var okCancelEvents = function (selector, callbacks) {
 
 //Declarations
 Hashtags = new Meteor.Collection("hashtags");
-Tweets = new Meteor.Collection("tweets");
+
 
 if (Meteor.isClient) {
+	
+	Tweets = new Meteor.Collection("tweets");
 	
 	//Get all hashtags from History Collection
 	Template.searchTwit.hashtags = function(){
@@ -52,12 +54,16 @@ if (Meteor.isClient) {
 			//Add new hashtag to history Collection
 			ok : function(text, evt){
 				
-				var searchInput = $('#searchinput').val();								 
+				var searchInput = $('#searchinput').val();					 
 				Hashtags.insert({hashtag:text});	
+				
+				//On new search, removes all entries from the collection	
+				Tweets.remove({});
+				
 				
 				var tw = Meteor.call('getTwits', text);
 			    
-			    Tweets.insert({tweets:tw});
+			    
 			    			    
 				clearValues();			 	
 				}
@@ -69,6 +75,7 @@ if (Meteor.isClient) {
 if (Meteor.isServer) {
   Meteor.startup(function () {
     // code to run on server at startup
+    Tweets = new Meteor.Collection("tweets");
     
     Accounts.loginServiceConfiguration.remove({
     service: "twitter"
@@ -86,7 +93,7 @@ if (Meteor.isServer) {
 	Meteor.methods({
 		'getTwits' : function getTwits(user) {
 
-			var tweets;
+			
 
 			var T = new Twit({
 				consumer_key : '3wqbNNvwn0K3VSRSKzBeVQ',
@@ -95,14 +102,22 @@ if (Meteor.isServer) {
 				access_token_secret : 'wKa9NOvK4FrrLMWIZhWmjoGZOIAWChoVHlq3mdFssek2V'
 			});
 			
-			  T.get('search/tweets', { q: user, count:10}, function(err, reply) {
+			  var stream = T.stream('statuses/filter', { track: user })
+				
+				
+					stream.on('tweet', function (tweet) {
+					  
+					  console.log(tweet.text);
+					  
+					  //Adds to the server collection 
+					// Tweets.insert(tweet.text);
+					  
+					  
+					 });
+					 
+				
 			  		
-			  	tweets = reply.statuses;
-			});
-			
-				return tweets;
-			  		
-	
+				return ;
 		}
 	}); 
 
