@@ -32,12 +32,13 @@ var okCancelEvents = function (selector, callbacks) {
 
 //Declarations
 Hashtags = new Meteor.Collection("hashtags");
+Tweets = new Meteor.Collection("tweets");
 
 if (Meteor.isClient) {
 	
 	//Get all hashtags from History Collection
 	Template.searchTwit.hashtags = function(){
-		return Hashtags.find();
+		return Hashtags.find('res');
 	};
 	
 	Template.searchTwit.events(okCancelEvents(
@@ -48,13 +49,19 @@ if (Meteor.isClient) {
 			ok : function(text, evt){
 				
 				var searchInput = $('#searchinput').val();								 
-				Hashtags.insert({hashtag:text});
+				Hashtags.insert({hashtag:text});	
+				
+				Meteor.call('getTwits', text);
+			    
+			    var res = Tweets.find();
+			    
+			    console.log(res);
+			    
 				clearValues();			 	
 				}
 		}));
 	
-	
-  
+
 }
 
 if (Meteor.isServer) {
@@ -73,30 +80,33 @@ if (Meteor.isServer) {
 	});
 	
 	
-/*
+
 	Meteor.methods({
-		'getTwits' : function getGists(user) {
-			var Twit = Meteor.require('ntwitter');
+		'getTwits' : function getTwits(user) {
+
 			
 
 			var T = new Twit({
 				consumer_key : '3wqbNNvwn0K3VSRSKzBeVQ',
 				consumer_secret : 'InWnI8wlxy8FdEbSG0IDSLOVFrvLDcRFKSJdKDPMqCw',
-				access_token : '...',
-				access_token_secret : '...'
+				access_token : '2354550830-vANmqnhjQQqGUjzQofQaj5JrUdZQYrA1Xk6IYH3',
+				access_token_secret : 'wKa9NOvK4FrrLMWIZhWmjoGZOIAWChoVHlq3mdFssek2V'
 			});
 			
-			  T.get('search/tweets', { q: 'banana since:2011-11-11', count: 100 }, function(err, reply) {
-			  		console.log(reply);
+			  T.get('search/tweets', { q: user }, function(err, reply) {
+			  		//console.log(reply);
+			  		
+			  		Tweets.insert({res:reply});
 			  		return reply;
 			});
 			
 		}
-	}); */
+	}); 
 
 
 	
 	
 }
+
 
 
