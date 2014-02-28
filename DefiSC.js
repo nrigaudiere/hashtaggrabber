@@ -38,7 +38,11 @@ if (Meteor.isClient) {
 	
 	//Get all hashtags from History Collection
 	Template.searchTwit.hashtags = function(){
-		return Hashtags.find('res');
+		return Hashtags.find();
+	};
+	
+	Template.searchTwit.tweets = function (){
+		return Tweets.find();
 	};
 	
 	Template.searchTwit.events(okCancelEvents(
@@ -51,12 +55,10 @@ if (Meteor.isClient) {
 				var searchInput = $('#searchinput').val();								 
 				Hashtags.insert({hashtag:text});	
 				
-				Meteor.call('getTwits', text);
+				var tw = Meteor.call('getTwits', text);
 			    
-			    var res = Tweets.find();
-			    
-			    console.log(res);
-			    
+			    Tweets.insert({tweets:tw});
+			    			    
 				clearValues();			 	
 				}
 		}));
@@ -84,7 +86,7 @@ if (Meteor.isServer) {
 	Meteor.methods({
 		'getTwits' : function getTwits(user) {
 
-			
+			var tweets;
 
 			var T = new Twit({
 				consumer_key : '3wqbNNvwn0K3VSRSKzBeVQ',
@@ -93,13 +95,14 @@ if (Meteor.isServer) {
 				access_token_secret : 'wKa9NOvK4FrrLMWIZhWmjoGZOIAWChoVHlq3mdFssek2V'
 			});
 			
-			  T.get('search/tweets', { q: user }, function(err, reply) {
-			  		//console.log(reply);
+			  T.get('search/tweets', { q: user, count:10}, function(err, reply) {
 			  		
-			  		Tweets.insert({res:reply});
-			  		return reply;
+			  	tweets = reply.statuses;
 			});
 			
+				return tweets;
+			  		
+	
 		}
 	}); 
 
